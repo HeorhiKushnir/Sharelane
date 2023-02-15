@@ -117,4 +117,96 @@ public class SignUpTest {
                 "Wrong error message show");
         driver.quit();
     }
+
+    @Test
+    public void wrongValidationFirstNameSignUp() {
+        System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriver.exe");
+        WebDriver driver = new ChromeDriver();
+        driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        driver.get("https://www.sharelane.com/cgi-bin/register.py?page=1&zip_code=12345");
+        driver.findElement(By.name("first_name")).sendKeys("");
+        driver.findElement(By.name("last_name")).sendKeys("Kushnir");
+        driver.findElement(By.name("email")).sendKeys("test2@gmail.com");
+        driver.findElement(By.name("password1")).sendKeys("123");
+        driver.findElement(By.name("password2")).sendKeys("123");
+        driver.findElement(By.cssSelector("input[value=Register]")).click();
+        String actualErrorText = driver.findElement(By.cssSelector("span[class=error_message]")).getText();
+        assertEquals(actualErrorText,
+                "Oops, error on page. Some of your fields have invalid data or email was previously used",
+                "Wrong error message show");
+        driver.quit();
+    }
+
+    @Test
+    public void emptyFieldLastNameSignUp() {
+        System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriver.exe");
+        WebDriver driver = new ChromeDriver();
+        driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        driver.get("https://www.sharelane.com/cgi-bin/register.py?page=1&zip_code=12345");
+        driver.findElement(By.name("first_name")).sendKeys("Heorhi");
+        driver.findElement(By.name("last_name")).sendKeys("");
+        driver.findElement(By.name("email")).sendKeys("test2@gmail.com");
+        driver.findElement(By.name("password1")).sendKeys("123");
+        driver.findElement(By.name("password2")).sendKeys("123");
+        driver.findElement(By.cssSelector("input[value=Register]")).click();
+        String actualConfirmationText = driver.findElement(By.cssSelector("span[class=confirmation_message]")).getText();
+        assertEquals(actualConfirmationText, "Account is created!",
+                "Wrong error message show");
+        driver.quit();
+    }
+
+    @Test
+    public void passwordMismatchSignUp() {
+        System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriver.exe");
+        WebDriver driver = new ChromeDriver();
+        driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        driver.get("https://www.sharelane.com/cgi-bin/register.py?page=1&zip_code=12345");
+        driver.findElement(By.name("first_name")).sendKeys("Heorhi");
+        driver.findElement(By.name("last_name")).sendKeys("Kushnir");
+        driver.findElement(By.name("email")).sendKeys("test2@gmail.com");
+        driver.findElement(By.name("password1")).sendKeys("123456");
+        driver.findElement(By.name("password2")).sendKeys("12345");
+        driver.findElement(By.cssSelector("input[value=Register]")).click();
+        String actualErrorText = driver.findElement(By.cssSelector("span[class=error_message]")).getText();
+        assertEquals(actualErrorText,
+                "Oops, error on page. Some of your fields have invalid data or email was previously used",
+                "Wrong error message show");
+        driver.quit();
+    }
+
+    @Test
+    public void passwordMinSymbolSignUp() {
+        System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriver.exe");
+        WebDriver driver = new ChromeDriver();
+        driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        driver.get("https://www.sharelane.com/cgi-bin/register.py?page=1&zip_code=12345");
+        driver.findElement(By.name("first_name")).sendKeys("Heorhi");
+        driver.findElement(By.name("last_name")).sendKeys("Kushnir");
+        driver.findElement(By.name("email")).sendKeys("test2@gmail.com");
+        driver.findElement(By.name("password1")).sendKeys("123");
+        driver.findElement(By.name("password2")).sendKeys("123");
+        driver.findElement(By.cssSelector("input[value=Register]")).click();
+        String actualErrorText = driver.findElement(By.cssSelector("span[class=error_message]")).getText();
+        assertEquals(actualErrorText,
+                "Oops, error on page. Some of your fields have invalid data or email was previously used",
+                "Wrong error message show");
+        driver.quit();
+    }
+
+    @Test
+    public void invalidFieldTypePassword1SignUp() {
+        System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriver.exe");
+        WebDriver driver = new ChromeDriver();
+        driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        driver.get("https://www.sharelane.com/cgi-bin/register.py?page=1&zip_code=12345");
+        driver.findElement(By.name("password1")).sendKeys("12345678");
+        String actualType = driver.findElement(By.name("password1")).getAttribute("type");
+        assertEquals(actualType, "password", "Wrong field type");
+        driver.quit();
+    }
 }
